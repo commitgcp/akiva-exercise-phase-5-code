@@ -83,4 +83,4 @@ jobs:
     # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-shared/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+        docker push --all-tags "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-shared/$REPOSITORY/$IMAGE:$GITHUB_SHA"
