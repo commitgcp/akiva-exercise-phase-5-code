@@ -71,19 +71,19 @@ jobs:
 #        location: ${{ env.GKE_ZONE }}
 
     # Build the Docker image
+    # add tag --tag "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
     - name: Build
       run: |-
         docker buildx build \
           --platform linux/amd64 \
-          --tag "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
           --tag "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:latest" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
     # Push the Docker image to Google Artifact Registry
-    - name: Publish
-      run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+#    - name: Publish
+#      run: |-
+#        docker push "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:$GITHUB_SHA"
 
     - name: Publish
       run: |-
