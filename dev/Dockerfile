@@ -31,6 +31,6 @@ COPY . .
 # Expose the port that the application listens on.
 EXPOSE 8080
 
-# Run the application. #
+# Run the application. ##
 
 CMD npm run initdb && npm run dev
