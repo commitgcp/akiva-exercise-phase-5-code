@@ -24,7 +24,7 @@ env:
 #  GKE_CLUSTER: cluster-1    # TODO: update to cluster name
 #  GKE_ZONE: us-central1-c   # TODO: update to cluster zone
 #  DEPLOYMENT_NAME: gke-test # TODO: update to deployment name
-  REPOSITORY: test-dev-repo # TODO: update to Artifact Registry docker repository
+  REPOSITORY: dev-repo # TODO: update to Artifact Registry docker repository
   IMAGE: dev-app
 
 jobs:
@@ -71,20 +71,20 @@ jobs:
 #        location: ${{ env.GKE_ZONE }}
 
     # Build the Docker image
-    # add tag --tag "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
     - name: Build
       run: |-
         docker buildx build \
           --platform linux/amd64 \
-          --tag "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:latest" \
+          --tag "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-shared/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
+          --tag "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-shared/$REPOSITORY/$IMAGE:latest" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
     # Push the Docker image to Google Artifact Registry
-#    - name: Publish
-#      run: |-
-#        docker push "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+    - name: Publish
+      run: |-
+        docker push "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-shared/$REPOSITORY/$IMAGE:$GITHUB_SHA"
 
     - name: Publish
       run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-dev/$REPOSITORY/$IMAGE:latest"
+        docker push "$GAR_LOCATION-docker.pkg.dev/akiva-exercise-phase5-shared/$REPOSITORY/$IMAGE:latest"
